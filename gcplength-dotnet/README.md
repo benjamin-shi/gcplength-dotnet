@@ -10,11 +10,32 @@ This project is a .NET Class Library implemention of GS1 Company Prefix Length d
 
 ## Class
 
-```GCPLength```
+```C#
+class GCPLength
+{
+    public static bool Download();
 
-## Unit Test
+    public static bool Refresh();
 
-[UnitTest for the Class Library](https://github.com/benjamin-shi/gcplength-dotnet/tree/master/UnitTest).
+    public static bool Exists(string prefix);
+
+    public static int Find(string prefix);
+
+    public static int Find(string prefix, out string realPrefix);    
+}
+```
+
+### Method ```GCPLength.Download()```
+
+This method is used to re-download the GCP Length file from GS1 Global Website (www.gs1.org).
+
+#### Usage
+
+```GCPLength.Download();```
+
+#### Parameters
+
+None
 
 ## Windows Test App
 

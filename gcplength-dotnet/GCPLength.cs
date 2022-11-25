@@ -55,7 +55,7 @@ namespace benjaminshi.gs1
         /// <summary>
         /// Download GCP Length Definition file Task
         /// </summary>
-        /// <returns></returns>
+        /// <returns>whether download successed</returns>
         protected static async Task<bool> DownloadTask()
         {
             bool isOK = false;
@@ -93,10 +93,86 @@ namespace benjaminshi.gs1
         /// <summary>
         /// Download GCP Length Definition file
         /// </summary>
-        /// <returns></returns>
+        /// <returns>whether download successed</returns>
         public static bool Download()
         {
             return DownloadTask().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Refresh/reload the data from the GCP Length Table (JSON Version)
+        /// </summary>
+        /// <returns>true if successed, or false if failed.</returns>
+        public static bool Refresh()
+        {
+            bool isOK = false;
+
+            string downloadFile = DownloadFilePath;
+
+            try
+            {
+                if (DownloadFilePath.Length <= 0) return false;
+
+                if (!File.Exists(DownloadFilePath))
+                {
+                    Download();
+                }
+                if (File.Exists(DownloadFilePath))
+                {
+                    string text = File.ReadAllText(DownloadFilePath, Encoding.UTF8);
+                    var def = JsonSerializer.Deserialize<JsonObject>(text);
+
+                    if (null == def) return false;
+                    if (!def.ContainsKey("GCPPrefixFormatList")) return false;
+
+                    var GCPPrefixFormatList = def["GCPPrefixFormatList"];
+                    if (null == GCPPrefixFormatList) return false;
+
+                    var entry = GCPPrefixFormatList["entry"];
+                    if (null == entry) return false;
+
+
+                    string key;
+                    int value;
+                    int count = 0, count_ok = 0;
+                    JsonNode? keyNode, valueNode;
+
+                    if (null == _TableGCPLength)
+                    {
+                        _TableGCPLength = new Dictionary<string, int>();
+                    }
+                    _TableGCPLength.Clear();
+
+                    foreach (var GCPPrefixFormat in entry.AsArray())
+                    {
+                        if (null != GCPPrefixFormat)
+                        {
+                            ++count;
+
+                            keyNode = GCPPrefixFormat["prefix"];
+                            valueNode = GCPPrefixFormat["gcpLength"];
+                            if ((null != keyNode) && (null != valueNode))
+                            {
+                                key = keyNode.ToString();
+                                value = int.Parse(valueNode.ToString());
+
+                                _TableGCPLength.Add(key, value);
+
+                                ++count_ok;
+                            }
+                        }
+                    }
+
+                    isOK = true;
+                }
+            }
+            catch
+            {
+                isOK = false;
+            }
+
+
+            return isOK;
         }
 
         /// <summary>
@@ -211,82 +287,6 @@ namespace benjaminshi.gs1
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Refresh/reload the data from the GCP Length Table (JSON Version)
-        /// </summary>
-        /// <returns>true if successed, or false if failed.</returns>
-        public static bool Refresh()
-        {
-            bool isOK = false;
-            
-            string downloadFile = DownloadFilePath;
-
-            try
-            {
-                if (DownloadFilePath.Length <= 0) return false;
-
-                if (!File.Exists(DownloadFilePath))
-                {
-                    Download();
-                }
-                if (File.Exists(DownloadFilePath))
-                {
-                    string text = File.ReadAllText(DownloadFilePath, Encoding.UTF8);
-                    var def = JsonSerializer.Deserialize<JsonObject>(text);
-
-                    if (null == def) return false;
-                    if (!def.ContainsKey("GCPPrefixFormatList")) return false;
-
-                    var GCPPrefixFormatList = def["GCPPrefixFormatList"];
-                    if (null == GCPPrefixFormatList) return false;
-
-                    var entry = GCPPrefixFormatList["entry"];
-                    if (null == entry) return false;
-
-                    
-                    string key;
-                    int value;
-                    int count = 0, count_ok = 0;
-                    JsonNode? keyNode, valueNode;
-
-                    if (null == _TableGCPLength)
-                    {
-                        _TableGCPLength = new Dictionary<string, int>();
-                    }
-                    _TableGCPLength.Clear();
-
-                    foreach (var GCPPrefixFormat in entry.AsArray())
-                    {
-                        if (null != GCPPrefixFormat)
-                        {
-                            ++count;
-
-                            keyNode = GCPPrefixFormat["prefix"];
-                            valueNode = GCPPrefixFormat["gcpLength"];
-                            if ((null != keyNode) && (null!= valueNode))
-                            {
-                                key = keyNode.ToString();
-                                value = int.Parse(valueNode.ToString());
-
-                                _TableGCPLength.Add(key, value);
-
-                                ++count_ok;
-                            }
-                        }
-                    }
-
-                    isOK = true;
-                }
-            }
-            catch
-            {
-                isOK = false;
-            }
-            
-
-            return isOK;
         }
     }
 }
