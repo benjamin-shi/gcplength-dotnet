@@ -1,4 +1,4 @@
-# gcplength-saas-php
+# gcplength-dotnet
 
 ## Introduction
 
@@ -6,101 +6,19 @@ This project is a .NET implemention of GS1 Company Prefix Length detection, by u
 
 ## Class Library
 
+[gcplength-dotnet](https://github.com/benjamin-shi/gcplength-dotnet/tree/master/gcplength-dotnet)
 
-### 1. api/gcplength
+## Unit Test
 
-**File:** api.gs1.GCPLength.php
+[UnitTest for the Class Library](https://github.com/benjamin-shi/gcplength-dotnet/tree/master/UnitTest).
 
-**Functionality**
-This interface will detect GS1 Company Prefix Length for a GS1 Code, such as GCP, GTIN, SSCC, etc.
+## Windows Test App
 
-**Input**
-1. JSON Format
-```
-{
-    "Code" : "<the code>"
-}
+[winApp](https://github.com/benjamin-shi/gcplength-dotnet/tree/master/winApp)
 
-For Example
-{
-    "Code" : "06901234567892"
-}
-or
-{
-    "Code" : "6901234567892"
-}
-or
-{
-    "Code" : "690123"
-}
-```
+## ASP.Net Web API Project
 
-2. Querystring
-```
-api/gcplength?Code=<the code>
-
-For example
-api/gcplength?Code=06901234567892
-```
-
-**Return**
-JSON data like:
-```
-{
-    "isOK":true,
-    "status":"OK",
-    "message":"",
-    "errors":[],
-    "data":{
-        "GCP":"69012",
-        "Length":7
-    }
-}
-```
-if successed, or
-```
-{
-    "isOK":false,
-    "status":"Error",
-    "message":"GCP Length cannot be found in register.",
-    "errors":[],
-    "data":null
-}
-```
-if failed.
-
-### 2. api/refresh
-
-**File:** api.gs1.GCPLength.refresh.php
-
-**Functionality**
-This interface will download the "gcpprefixformatlist.json" file from GS1 Global (www.gs1.org) website and reparse it.
-
-**Usage**
-1. download the "gcpprefixformatlist.json" file from GS1 Global (www.gs1.org) website and reparse it.
-   ```api/refresh?refresh=yes```
-
-2. Just reparse the "gcpprefixformatlist.json" file
-   ```api/refresh```
-
-**Return**
-JSON data like:
-```
-{
-    "isOK" : true,
-    "status" : "OK",
-    ...
-}
-```
-if successed, or
-```
-{
-    "isOK" : false,
-    "status" : "Error",
-    ...
-}
-```
-if failed.
+[gcplength-saas-dotnet](https://github.com/benjamin-shi/gcplength-dotnet/tree/master/gcplength-saas-dotnet)
 
 ## Contacts
 
