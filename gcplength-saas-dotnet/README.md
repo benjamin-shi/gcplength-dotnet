@@ -20,13 +20,13 @@ This project is a ASP.NET Core Web API Docker Image implemention of GS1 Company 
 
 ```JSON
 {
-    "isOK" : true|false,
-    "status" : "OK"|"Error",
-    "message" : "\<error message\>",
+    "isOK" : true | false,
+    "status" : "OK" | "Error",
+    "message" : "error message",
     "errors" : null | ["errors"],
     "data" : {
-        "GCP" : "<Actual Code in the GCP Length Table>",
-        "Length" : <GCP Length>
+        "GCP" : "Actual Code in the GCP Length Table",
+        "Length" : GCP Length
     } | null
 }
 ```
@@ -35,13 +35,13 @@ This project is a ASP.NET Core Web API Docker Image implemention of GS1 Company 
 
 #### Usage
 
-> https://server/api/gcplength?code
+> https://server/api/gcplength
 
 #### POST Body
 
 ```JSON
 {
-    "code" : "<code>"
+    "code" : "code"
 }
 ```
 
@@ -49,13 +49,13 @@ This project is a ASP.NET Core Web API Docker Image implemention of GS1 Company 
 
 ```JSON
 {
-    "isOK" : true|false,
-    "status" : "OK"|"Error",
-    "message" : "\<error message\>",
+    "isOK" : true | false,
+    "status" : "OK" | "Error",
+    "message" : "error message",
     "errors" : null | ["errors"],
     "data" : {
-        "GCP" : "<Actual Code in the GCP Length Table>",
-        "Length" : <GCP Length>
+        "GCP" : "Actual Code in the GCP Length Table",
+        "Length" : GCP Length
     } | null
 }
 ```
