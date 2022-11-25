@@ -200,7 +200,7 @@ namespace benjaminshi.gs1
         /// Check whether a prefix existed in the GCP Length Table
         /// </summary>
         /// <param name="prefix">The code used to be detected</param>
-        /// <returns>if the "prefix" can be found in the GCP Length Table</returns>
+        /// <returns>whether the "prefix" can be found in the GCP Length Table</returns>
         public static bool Exists(string prefix)
         {
             bool isExisted = false;
@@ -251,7 +251,7 @@ namespace benjaminshi.gs1
         /// GS1 Company Prefix Length detection
         /// </summary>
         /// <param name="prefix">Searchable codes like GCP, GTIN, etc.</param>
-        /// <param name="realPrefix">Output actual prefix when found, or ""</param>
+        /// <param name="realPrefix">Output actual prefix when found, or "" if cannot find a GCP Length based on the "prefix"</param>
         /// <returns>GS1 Company Prefix Length, or 0 if cannot find a GCP Length based on the "prefix".</returns>
         public static int Find(string prefix, out string realPrefix)
         {
