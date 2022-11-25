@@ -199,8 +199,8 @@ namespace benjaminshi.gs1
         /// <summary>
         /// Check whether a prefix existed in the GCP Length Table
         /// </summary>
-        /// <param name="prefix"></param>
-        /// <returns></returns>
+        /// <param name="prefix">The code used to be detected</param>
+        /// <returns>if the "prefix" can be found in the GCP Length Table</returns>
         public static bool Exists(string prefix)
         {
             bool isExisted = false;
